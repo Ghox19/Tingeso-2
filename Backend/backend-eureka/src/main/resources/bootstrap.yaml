@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: backend-eureka
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-attempts: 200
+        max-interval: 10000
+      enabled: true
+      uri: http://localhost:8081
