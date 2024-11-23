@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      default-zone: http://backend-eureka:8761/eureka
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns: '*'
+            allowed-methods: "*"
+            allowed-headers: "*"
+            allow-credentials: true
+      routes:
+        - id: user-microservice
+          uri: lb://user-microservice
+          predicates:
+            - Path=/user/**
+        - id: credit-microservice
+          uri: lb://credit-microservice
+          predicates:
+            - Path=/credit/**
+        - id: document-microservice
+          uri: lb://document-microservice
+          predicates:
+            - Path=/document/**
+        - id: financialEvaluation-microservice
+          uri: lb://financialEvaluation-microservice
+          predicates:
+            - Path=/financialEvaluation/**
+        - id: utils-microservice
+          uri: lb://utils-microservice
+          predicates:
+            - Path=/utils/**

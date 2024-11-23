@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: backend-config
+  cloud:
+    config:
+      server:
+        git:
+          default-label: main
+          uri: https://github.com/Ghox19/Tingeso-2.git
+          search-paths: "config-data"
