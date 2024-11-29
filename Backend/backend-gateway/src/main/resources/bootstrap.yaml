@@ -1,0 +1,14 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+      
+spring:
+  application:
+    name: backend-gateway
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081

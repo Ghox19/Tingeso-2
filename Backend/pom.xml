@@ -21,7 +21,7 @@
         <module>backend-gateway</module>
         <module>backend-eureka</module>
         <module>backend-config</module>
-        <module>user-microservice</module>
+        <module>loan-microservice</module>
         <module>credit-microservice</module>
         <module>utils-microservice</module>
         <module>document-microservice</module>

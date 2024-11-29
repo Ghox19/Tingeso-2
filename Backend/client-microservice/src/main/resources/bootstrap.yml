@@ -1,0 +1,36 @@
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://backend-eureka:8761/eureka/
+
+spring:
+  devtools:
+    restart:
+      aditional-paths: src/main/java
+  application:
+    name: client-microservice
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  cloud:
+    config:
+      enabled: true
+      uri: http://localhost:8081
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${POSTGRES_DB_HOST}:5432/${POSTGRES_DB_USER}?useSSL=false
+    username: postgres
+    password: admin
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
