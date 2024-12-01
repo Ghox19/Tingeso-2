@@ -30,6 +30,6 @@ spring:
             allow-credentials: true
       routes:
         - id: loan-microservice
-          uri: lb://loan-microservice
+          uri: lb://LOAN-MICROSERVICE
           predicates:
             - Path=/loan/**
