@@ -10,7 +10,7 @@
 	<groupId>com.microservice.userMicroservice</groupId>
 	<artifactId>loan-microservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>userMicroservice</name>
+	<name>loanMicroservice</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

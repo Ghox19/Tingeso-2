@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loan-microservice
+  template:
+    metadata:
+      labels:
+        app: loan-microservice
+    spec:
+      containers:
+      - name: loan-microservice
+        image: ghox19/loan-microservice:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan-microservice
+spec:
+  selector:
+    app: loan-microservice
+  ports:
+  - port: 8080
+    targetPort: 8080
