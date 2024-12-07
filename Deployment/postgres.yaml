@@ -39,6 +39,11 @@ spec:
             configMapKeyRef:
               name: postgres-config
               key: POSTGRES_DB_CLIENT
+        - name: POSTGRES_DB_DOCUMENT
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_DOCUMENT
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:

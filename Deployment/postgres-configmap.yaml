@@ -5,3 +5,4 @@ metadata:
 data:
   POSTGRES_DB_LOAN: loan
   POSTGRES_DB_CLIENT: client
+  POSTGRES_DB_CLIENT: document

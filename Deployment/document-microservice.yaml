@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: document-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: document-microservice
+  template:
+    metadata:
+      labels:
+        app: document-microservice
+    spec:
+      containers:
+      - name: document-microservice
+        image: ghox19/document-microservice:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_DB_DOCUMENT
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_DOCUMENT
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: document-microservice
+spec:
+  selector:
+    app: document-microservice
+  ports:
+  - port: 8080
+    targetPort: 8080

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-microservice
+  template:
+    metadata:
+      labels:
+        app: client-microservice
+    spec:
+      containers:
+      - name: client-microservice
+        image: ghox19/client-microservice:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_DB_CLIENT
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_CLIENT
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-microservice
+spec:
+  selector:
+    app: client-microservice
+  ports:
+  - port: 8080
+    targetPort: 8080
