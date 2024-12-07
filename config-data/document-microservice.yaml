@@ -8,7 +8,7 @@ eureka:
       default-zone: http://eureka-server:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: loan-microservice
+    hostname: document-microservice
 
 management:
   endpoints:
