@@ -29,12 +29,26 @@ spec:
         ports:
         - containerPort: 5432
         env:
-        - name: POSTGRES_DB
-          value: "loan"
+        - name: POSTGRES_DB_LOAN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_LOAN
+        - name: POSTGRES_DB_CLIENT
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_CLIENT
         - name: POSTGRES_USER
-          value: "postgres"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
         - name: POSTGRES_PASSWORD
-          value: "admin"
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
         volumeMounts:
         - mountPath: "/var/lib/postgresql/data"
           name: postgres-storage
