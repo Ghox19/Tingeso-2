@@ -11,6 +11,7 @@ export const ClientLoanValidation = () => {
     const [client, setClient] = useState([]);
     const [clientDocuments, setClientDocuments] = useState([]);
     const [idSaving, setIdSaving] = useState(0);
+    const [idTracing, setIdTracing] = useState(0);
     const [saving, setSaving] = useState([]);
     const [showAdditionalFields, setShowAdditionalFields] = useState(false);
     const [fireInsurance, setFireInsurance] = useState('');
@@ -28,9 +29,27 @@ export const ClientLoanValidation = () => {
     const fetchClient = async (clientId) => {
       try {
         const data = await ClientLoanValidationService.getClientById(clientId);
-        console.log(data)
         setClient(data);
         setClientDocuments(data.documents);
+      } catch (error) {
+        console.error('Error fetching loans:', error);
+      }
+    };
+
+    const fetchTracingId = async (loanId) => {
+      try {
+        const data = await ClientLoanValidationService.getClientLoanByIdRaw(loanId);
+        setIdTracing(data.tracingId);
+      } catch (error) {
+        console.error('Error fetching loans:', error);
+      }
+    };
+
+    const fetchSaving = async (savingId) => {
+      try {
+        const data = await ClientLoanValidationService.getSavingById(savingId);
+        setSaving(data);
+        setIdSaving(data.id);
       } catch (error) {
         console.error('Error fetching loans:', error);
       }
@@ -39,12 +58,11 @@ export const ClientLoanValidation = () => {
     const fetchLoan = async () => {
       try {
           const loanData = await ClientLoanValidationService.getClientLoanById(id);
-          console.log(loanData);
           setLoan(loanData);
           fetchClient(loanData.clientId);
+          fetchTracingId(loanData.id);
           if (loanData.savingsId !== null) {
-              setSaving(loanData.savings);
-              setIdSaving(loanData.savings.id);
+              fetchSaving(loanData.savingsId);
           }
       } catch (error) {
           console.error('Error fetching loans:', error);
@@ -56,7 +74,7 @@ export const ClientLoanValidation = () => {
     };
 
     const handleSavings = () => {
-      navigate('/savingValidation', { state: {id, idSaving} });
+      navigate('/savingValidation', { state: {id, idSaving, idTracing} });
     };
 
     const handleDocumentApproved = async (id, document) => {
@@ -66,20 +84,20 @@ export const ClientLoanValidation = () => {
 
     const handleReject = async (e) => {
       e.preventDefault();
-      await ClientLoanValidationService.rejectLoan(id, rejectMessage);
+      await ClientLoanValidationService.rejectLoan(idTracing, rejectMessage);
       setShowMessage(false);
       fetchLoan();
     };
 
     const handleClientApproved = async (e) => {
       e.preventDefault();
-      await ClientLoanValidationService.finalizeClientLoan(id, "Desembolso");
+      await ClientLoanValidationService.finalizeClientLoan(idTracing, "Desembolso");
       fetchLoan();
     };
 
     const handleClientReject = async (e) => {
       e.preventDefault();
-      await ClientLoanValidationService.finalizeClientLoan(id, "Rechazado");
+      await ClientLoanValidationService.finalizeClientLoan(idTracing, "Rechazado");
       fetchLoan();
     };
 
@@ -87,9 +105,10 @@ export const ClientLoanValidation = () => {
       e.preventDefault();
         const newLoan = {
             clientLoanId: loan.id,
-            fireInsurance,
-            deduction
+            deduction: deduction,
+            fireInsurance: fireInsurance
         };
+        console.log(newLoan);
         await ClientLoanValidationService.preApproveLoan(newLoan);
         fetchLoan();
     };

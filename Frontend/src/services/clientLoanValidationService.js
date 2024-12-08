@@ -24,6 +24,16 @@ export const ClientLoanValidationService = {
         }
     },
 
+    getClientLoanByIdRaw: async (id) => {
+        try {
+            const response = await axios.get(`${API_URL}/clientLoan/raw/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching client:', error);
+            throw error;
+        }
+    },
+
     getSavingById: async (id) => {
         try {
             const response = await axios.get(`${API_URL}/saving/${id}`);
@@ -72,7 +82,7 @@ export const ClientLoanValidationService = {
     rejectLoan: async (id, rejectMessage) => {
         const newFormData = { id, message: rejectMessage };
         try {
-            const response = await axios.put(`${API_URL}/clientLoan/reject`, newFormData);
+            const response = await axios.put(`${API_URL}/tracing/reject`, newFormData);
             return response.data;
         } catch (error) {
             console.error('Error rejecting the loan', error);
@@ -83,7 +93,7 @@ export const ClientLoanValidationService = {
     finalizeClientLoan: async (id, fase) => {
         const newFormData = { id, fase };
         try {
-            const response = await axios.put(`${API_URL}/clientLoan/final`, newFormData);
+            const response = await axios.put(`${API_URL}/tracing/final`, newFormData);
             return response.data;
         } catch (error) {
             console.error('Error finalizing the loan:', error);
@@ -93,7 +103,7 @@ export const ClientLoanValidationService = {
 
     preApproveLoan: async (loanData) => {
         try {
-            const response = await axios.put(`${API_URL}/clientLoan/preApproved`, loanData);
+            const response = await axios.put(`${API_URL}/tracing/preApproved`, loanData);
             return response.data;
         } catch (error) {
             console.error('Error pre-approving the loan', error);

@@ -1,8 +1,10 @@
 package com.microservice.savingMicroservice.Controllers;
 
 import com.microservice.savingMicroservice.DTOs.SavingForm;
+import com.microservice.savingMicroservice.DTOs.SavingResultForm;
 import com.microservice.savingMicroservice.Entities.SavingEntity;
 import com.microservice.savingMicroservice.Services.SavingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,4 +26,9 @@ public class SavingController {
 
     @GetMapping("/{id}")
     public SavingEntity getSavingById(@PathVariable Long id) {return savingService.getSavingById(id);}
+
+    @PutMapping
+    public ResponseEntity<Object> updateResultSaving(@RequestBody SavingResultForm form) {
+        return savingService.updateStateSaving(form);
+    }
 }

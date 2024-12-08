@@ -4,7 +4,7 @@ import { SavingValidationService } from '../services/savingValidationService';
 
 export const SavingValidation = () => {
     const location = useLocation();
-    const { id, idSaving } = location.state || {};
+    const { id, idSaving, idTracing } = location.state || {};
     const [actualIdSaving, setActualIdSaving] = useState(idSaving);
 
     const [formData, setFormData] = useState({

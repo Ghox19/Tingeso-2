@@ -21,7 +21,7 @@ public class TracingService {
     private TracingRepository tracingRepository;
     @Autowired
     private RestTemplate restTemplate;
-    private static final String CLIENTLOAN_SERVICE_URL = "clientloan-microservice/clientLoan";
+    private static final String CLIENTLOAN_SERVICE_URL = "http://clientloan-microservice/clientLoan";
 
     public Long addTracing(TracingEntity tracingEntity) {
         if (tracingEntity == null) {

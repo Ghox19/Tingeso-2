@@ -54,7 +54,7 @@ minikube start
 
 kubectl apply -f postgres-configmap.yaml
 kubectl apply -f postgres-secret.yaml
-
+kubectl apply -f postgres.yaml
 kubectl apply -f config-server.yaml
 kubectl apply -f eureka-server.yaml
 kubectl apply -f api-gateway.yaml
