@@ -54,6 +54,11 @@ spec:
             configMapKeyRef:
               name: postgres-config
               key: POSTGRES_DB_CLIENTLOAN
+        - name: POSTGRES_DB_SAVING
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_SAVING
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:

@@ -13,7 +13,7 @@ spring:
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8081
+      uri: http://config-server:8081
     gateway:
       discovery:
         locator:

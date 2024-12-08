@@ -10,6 +10,8 @@
     <file url="file://$PROJECT_DIR$/document-microservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/document-microservice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/loan-microservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/saving-microservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/simulation-microservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tracing-microservice/src/main/java" charset="UTF-8" />

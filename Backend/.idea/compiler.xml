@@ -9,6 +9,8 @@
         <module name="document-microservice" />
         <module name="loan-microservice" />
         <module name="backend-eureka" />
+        <module name="saving-microservice" />
+        <module name="simulation-microservice" />
         <module name="backend-gateway" />
         <module name="client-microservice" />
         <module name="backend-config" />
@@ -26,6 +28,8 @@
       <module name="clientLoan-microservice" options="-parameters" />
       <module name="document-microservice" options="-parameters" />
       <module name="loan-microservice" options="-parameters" />
+      <module name="saving-microservice" options="-parameters" />
+      <module name="simulation-microservice" options="-parameters" />
       <module name="tracing-microservice" options="-parameters" />
     </option>
   </component>

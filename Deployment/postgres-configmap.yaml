@@ -8,3 +8,4 @@ data:
   POSTGRES_DB_DOCUMENT: document
   POSTGRES_DB_CLIENTLOAN: clientloan
   POSTGRES_DB_TRACING: tracing
+  POSTGRES_DB_SAVING: saving

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saving-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saving-microservice
+  template:
+    metadata:
+      labels:
+        app: saving-microservice
+    spec:
+      containers:
+      - name: saving-microservice
+        image: ghox19/saving-microservice:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_DB_SAVING
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_SAVING
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: saving-microservice
+spec:
+  selector:
+    app: saving-microservice
+  ports:
+  - port: 80
+    targetPort: 8080
