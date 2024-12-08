@@ -30,6 +30,16 @@ mvn clean install
 docker build -t ghox19/document-microservice:latest --push .
 cd ..
 
+cd clientloan-microservice 
+mvn clean install 
+docker build -t ghox19/clientloan-microservice:latest --push .
+cd ..
+
+cd tracing-microservice 
+mvn clean install 
+docker build -t ghox19/tracing-microservice:latest --push .
+cd ..
+
 minikube start
 
 kubectl apply -f postgres-configmap.yaml
@@ -41,14 +51,16 @@ kubectl apply -f api-gateway.yaml
 kubectl apply -f loan-microservice.yaml
 kubectl apply -f client-microservice.yaml
 kubectl apply -f document-microservice.yaml
+kubectl apply -f clientloan-microservice.yaml
+kubectl apply -f tracing-microservice.yaml
 
 minikube tunnel
 
-kubectl exec -it postgres-5fdc77f867-tl2dm -- psql -U postgres
+kubectl exec -it postgres-795444d67f-dqjnt -- psql -U postgres
 CREATE DATABASE loan;
 \q
 
-
+\l
 
 kubectl delete deployment --all
 kubectl delete services --all

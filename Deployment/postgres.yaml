@@ -44,6 +44,16 @@ spec:
             configMapKeyRef:
               name: postgres-config
               key: POSTGRES_DB_DOCUMENT
+        - name: POSTGRES_DB_TRACING
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_TRACING
+        - name: POSTGRES_DB_CLIENTLOAN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_CLIENTLOAN
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:

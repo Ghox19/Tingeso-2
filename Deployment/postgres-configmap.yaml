@@ -6,5 +6,5 @@ data:
   POSTGRES_DB_LOAN: loan
   POSTGRES_DB_CLIENT: client
   POSTGRES_DB_DOCUMENT: document
-  POSTGRES_DB_CLIENTLOAN: client-loan
+  POSTGRES_DB_CLIENTLOAN: clientloan
   POSTGRES_DB_TRACING: tracing
