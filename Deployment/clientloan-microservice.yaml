@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clientloan-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clientloan-microservice
+  template:
+    metadata:
+      labels:
+        app: clientloan-microservice
+    spec:
+      containers:
+      - name: clientloan-microservice
+        image: ghox19/clientloan-microservice:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_DB_CLIENTLOAN
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: POSTGRES_DB_CLIENTLOAN
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clientloan-microservice
+spec:
+  selector:
+    app: clientloan-microservice
+  ports:
+  - port: 80
+    targetPort: 8080

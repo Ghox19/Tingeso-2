@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="document-microservice" />
+        <module name="loan-microservice" />
+        <module name="backend-eureka" />
         <module name="backend-gateway" />
         <module name="client-microservice" />
         <module name="backend-config" />
-        <module name="loan-microservice" />
-        <module name="backend-eureka" />
+        <module name="clientLoan-microservice" />
+        <module name="tracing-microservice" />
       </profile>
     </annotationProcessing>
   </component>
@@ -20,9 +22,11 @@
       <module name="backend-config" options="-parameters" />
       <module name="backend-eureka" options="-parameters" />
       <module name="backend-gateway" options="-parameters" />
-      <module name="client-microservice" options="" />
-      <module name="document-microservice" options="" />
+      <module name="client-microservice" options="-parameters" />
+      <module name="clientLoan-microservice" options="-parameters" />
+      <module name="document-microservice" options="-parameters" />
       <module name="loan-microservice" options="-parameters" />
+      <module name="tracing-microservice" options="-parameters" />
     </option>
   </component>
 </project>
