@@ -20,8 +20,8 @@
       <module name="backend-config" options="-parameters" />
       <module name="backend-eureka" options="-parameters" />
       <module name="backend-gateway" options="-parameters" />
-      <module name="client-microservice" options="-parameters" />
-      <module name="document-microservice" options="-parameters" />
+      <module name="client-microservice" options="" />
+      <module name="document-microservice" options="" />
       <module name="loan-microservice" options="-parameters" />
     </option>
   </component>
