@@ -50,6 +50,8 @@ mvn clean install
 docker build -t ghox19/simulation-microservice:latest --push .
 cd ..
 
+docker build -t ghox19/react-frontend --push .
+
 minikube start
 
 kubectl apply -f postgres-configmap.yaml

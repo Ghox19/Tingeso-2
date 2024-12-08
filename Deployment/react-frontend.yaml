@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-frontend
+  template:
+    metadata:
+      labels:
+        app: react-frontend
+    spec:
+      containers:
+      - name: react-frontend
+        image: ghox19/react-frontend:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: REACT_APP_API_URL
+          value: "http://api-gateway"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: react-frontend
+  ports:
+  - port: 80
+    targetPort: 80
