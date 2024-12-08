@@ -32,3 +32,11 @@ spring:
           uri: lb://LOAN-MICROSERVICE
           predicates:
             - Path=/loan/**
+        - id: document-microservice
+          uri: lb://DOCUMENT-MICROSERVICE
+          predicates:
+            - Path=/document/**
+        - id: client-microservice
+          uri: lb://CLIENT-MICROSERVICE
+          predicates:
+            - Path=/client/**
