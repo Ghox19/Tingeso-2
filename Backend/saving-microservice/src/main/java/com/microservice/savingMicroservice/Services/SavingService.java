@@ -1,8 +1,11 @@
 package com.microservice.savingMicroservice.Services;
 
 import com.microservice.savingMicroservice.DTOs.ClientLoanGetForm;
+import com.microservice.savingMicroservice.DTOs.ClientLoanRejectForm;
 import com.microservice.savingMicroservice.DTOs.SavingForm;
+import com.microservice.savingMicroservice.DTOs.SavingResultForm;
 import com.microservice.savingMicroservice.Entities.ClientEntity;
+import com.microservice.savingMicroservice.Entities.ClientLoanEntity;
 import com.microservice.savingMicroservice.Entities.SavingEntity;
 import com.microservice.savingMicroservice.Repositories.SavingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class SavingService {
@@ -22,6 +27,7 @@ public class SavingService {
     private RestTemplate restTemplate;
     private static final String CLIENT_SERVICE_URL = "http://client-microservice/client";
     private static final String CLIENTLOAN_SERVICE_URL = "http://clientloan-microservice/clientLoan";
+    private static final String TRACING_SERVICE_URL = "http://tracing-microservice/tracing";
     public Long addSaving(SavingForm savingForm){
         ClientLoanGetForm clientLoan = getClientLoanByIdFromMicroservice(savingForm.getClientLoanId());
 
@@ -121,6 +127,18 @@ public class SavingService {
         }
     }
 
+    private ClientLoanEntity getClientLoanRawByIdFromMicroservice(Long id) {
+        try {
+            ResponseEntity<ClientLoanEntity> response = restTemplate.getForEntity(
+                    CLIENTLOAN_SERVICE_URL + "/raw/" + id,
+                    ClientLoanEntity.class
+            );
+            return response.getBody();
+        } catch (RestClientException e) {
+            return null;
+        }
+    }
+
     private ClientEntity getClientByIdFromMicroservice(Long id) {
         try {
             ResponseEntity<ClientEntity> response = restTemplate.getForEntity(
@@ -196,5 +214,53 @@ public class SavingService {
             }
         }
         return true;
+    }
+
+    public SavingEntity getSavingById(Long id){
+        Optional<SavingEntity> savingEntity = this.savingRepository.findById(id);
+        return savingEntity.orElse(null);
+    }
+
+    public ResponseEntity<Object>  updateStateSaving(SavingResultForm form){
+        Optional<SavingEntity> savingEntity = savingRepository.findById(form.getId());
+
+        if(savingEntity.isPresent()){
+            if(Objects.equals(form.getResult(), "Aprobado")){
+                savingEntity.get().setResult(form.getResult());
+                savingRepository.save(savingEntity.get());
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body("Se Aprobo correctamente la cuenta");
+            } else {
+                savingEntity.get().setResult(form.getResult());
+                savingRepository.save(savingEntity.get());
+
+                ClientLoanEntity clientLoan = getClientLoanRawByIdFromMicroservice(savingEntity.get().getClientLoanId());
+
+                ClientLoanRejectForm clientLoanRejectForm = new ClientLoanRejectForm();
+                clientLoanRejectForm.setId(clientLoan.getTracingId());
+                clientLoanRejectForm.setMessage("El Prestamo fue Rechazado por no cumplir correctamente con la Cuenta de Ahorros");
+
+                rejectLoan(clientLoanRejectForm);
+
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body("Se Rechazo correctamente la cuenta");
+            }
+
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body("No se encontro la Cuenta de Ahorros");
+        }
+    }
+
+    public ResponseEntity<Object> rejectLoan(ClientLoanRejectForm form) {
+        return restTemplate.exchange(
+                TRACING_SERVICE_URL + "/reject",
+                HttpMethod.PUT,
+                new HttpEntity<>(form),
+                Object.class
+        );
     }
 }
