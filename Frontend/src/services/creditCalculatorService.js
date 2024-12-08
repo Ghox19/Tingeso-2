@@ -16,7 +16,7 @@ export const CreditCalculatorService = {
 
     calculateLoan: async (formData) => {
         try {
-            const response = await axios.post(`${API_URL}/clientLoan/calculator`, formData);
+            const response = await axios.post(`${API_URL}/simulation`, formData);
             return response.data.toString();
         } catch (error) {
             console.error('Error calculating:', error);

@@ -67,7 +67,7 @@ export const ClientLoanPage = () => {
               interest={loan.interest}
               loanAmount={loan.loanAmount}
               mensualPay={loan.mensualPay}
-              rut={loan.client.rut}
+              clientId={loan.clientId}
               fase={loan.fase}
             />
           ))}

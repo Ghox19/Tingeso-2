@@ -40,11 +40,21 @@ mvn clean install
 docker build -t ghox19/tracing-microservice:latest --push .
 cd ..
 
+cd saving-microservice 
+mvn clean install 
+docker build -t ghox19/saving-microservice:latest --push .
+cd ..
+
+cd simulation-microservice 
+mvn clean install 
+docker build -t ghox19/simulation-microservice:latest --push .
+cd ..
+
 minikube start
 
 kubectl apply -f postgres-configmap.yaml
 kubectl apply -f postgres-secret.yaml
-kubectl apply -f postgres.yaml
+
 kubectl apply -f config-server.yaml
 kubectl apply -f eureka-server.yaml
 kubectl apply -f api-gateway.yaml
@@ -53,10 +63,12 @@ kubectl apply -f client-microservice.yaml
 kubectl apply -f document-microservice.yaml
 kubectl apply -f clientloan-microservice.yaml
 kubectl apply -f tracing-microservice.yaml
+kubectl apply -f saving-microservice.yaml
+kubectl apply -f simulation-microservice.yaml
 
 minikube tunnel
 
-kubectl exec -it postgres-795444d67f-dqjnt -- psql -U postgres
+kubectl exec -it postgres-768857d6bf-p4gl2 -- psql -U postgres
 CREATE DATABASE loan;
 \q
 

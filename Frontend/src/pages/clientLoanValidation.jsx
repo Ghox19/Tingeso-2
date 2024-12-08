@@ -25,14 +25,24 @@ export const ClientLoanValidation = () => {
       return areClientDocsApproved && areLoanDocsApproved && isSavingApproved;
     };
 
+    const fetchClient = async (clientId) => {
+      try {
+        const data = await ClientLoanValidationService.getClientById(clientId);
+        console.log(data)
+        setClient(data);
+        setClientDocuments(data.documents);
+      } catch (error) {
+        console.error('Error fetching loans:', error);
+      }
+    };
+
     const fetchLoan = async () => {
       try {
           const loanData = await ClientLoanValidationService.getClientLoanById(id);
+          console.log(loanData);
           setLoan(loanData);
-          setClient(loanData.client);
-          const documentsData = await ClientLoanValidationService.fetchClientDocuments(loanData.client.id);
-          setClientDocuments(documentsData);
-          if (loanData.savings !== null) {
+          fetchClient(loanData.clientId);
+          if (loanData.savingsId !== null) {
               setSaving(loanData.savings);
               setIdSaving(loanData.savings.id);
           }
@@ -322,7 +332,7 @@ export const ClientLoanValidation = () => {
             
           {/* Savings Account Section */}
           <div className="space-y-4">
-            {loan.savings === null && loan.fase === "En Revision Inicial" &&(
+            {loan.savingsId === null && loan.fase === "En Revision Inicial" &&(
               <button 
                 onClick={() => handleSavings()}
                 className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-lg rounded-md transition-colors"
@@ -338,7 +348,7 @@ export const ClientLoanValidation = () => {
                 Validar Cuenta de ahorros
               </button>
             )}
-            {loan.savings !== null && saving.result !== "Revision Adicional" && (
+            {loan.savingsId !== null && saving.result !== "Revision Adicional" && (
               <p className="bg-[#2A353D] p-4 rounded-lg text-lg">
                 La cuenta de Ahorros se ha {' '}
                 <span className={`${

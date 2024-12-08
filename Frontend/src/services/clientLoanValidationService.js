@@ -14,15 +14,26 @@ export const ClientLoanValidationService = {
         }
     },
 
-    fetchClientDocuments: async (id) => {
+    getClientById: async (id) => {
         try {
-            const response = await axios.get(`${API_URL}/client/documents/${id}`);
+            const response = await axios.get(`${API_URL}/client/${id}`);
             return response.data;
         } catch (error) {
-            console.error('Error fetching Client Documents:', error);
+            console.error('Error fetching client:', error);
             throw error;
         }
     },
+
+    getSavingById: async (id) => {
+        try {
+            const response = await axios.get(`${API_URL}/saving/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching client:', error);
+            throw error;
+        }
+    },
+
 
     downloadDocument: async (id, name) => {
         try {

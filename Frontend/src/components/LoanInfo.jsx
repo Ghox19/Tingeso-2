@@ -1,12 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ClientLoanPageService } from '../services/clientLoanPageService';
 
-export const LoanInfo = ({id,loanName, years, interest, loanAmount, mensualPay, rut, fase}) => {
+export const LoanInfo = ({id,loanName, years, interest, loanAmount, mensualPay, clientId, fase}) => {
   const navigate = useNavigate();
+  const [rut, setRut] = useState('');
 
   const handleClick = () => {
     navigate('/loanValidation', { state: {id}});
   };
+
+  useEffect(() => {
+    const fetchClientRut = async () => {
+      try {
+        const data = await ClientLoanPageService.getClientById(clientId);
+        setRut(data.rut);
+      } catch (error) {
+        console.error('Error fetching loans:', error);
+      }
+    };
+
+    fetchClientRut();
+  }, [rut]);
+
 
   return (
     <div className="max-w-6xl mx-auto bg-[#2A353D] rounded-xl shadow-md overflow-hidden p-2">

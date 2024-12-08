@@ -12,5 +12,15 @@ export const ClientLoanPageService = {
             console.error('Error fetching loans:', error);
             throw error;
         }
+    },
+
+    getClientById: async (id) => {
+        try {
+            const response = await axios.get(`${API_URL}/client/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching loans:', error);
+            throw error;
+        }
     }
 };
