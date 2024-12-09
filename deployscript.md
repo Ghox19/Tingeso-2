@@ -50,7 +50,7 @@ mvn clean install
 docker build -t ghox19/simulation-microservice:latest --push .
 cd ..
 
-docker build -t ghox19/react-frontend --push .
+docker build -t ghox19/react-frontend:latest --push .
 
 minikube start
 
@@ -67,8 +67,11 @@ kubectl apply -f clientloan-microservice.yaml
 kubectl apply -f tracing-microservice.yaml
 kubectl apply -f saving-microservice.yaml
 kubectl apply -f simulation-microservice.yaml
+kubectl apply -f react-frontend.yaml
 
 minikube tunnel
+
+minikube service react-frontend
 
 kubectl exec -it postgres-768857d6bf-p4gl2 -- psql -U postgres
 CREATE DATABASE loan;
