@@ -73,8 +73,9 @@ minikube tunnel
 
 minikube service react-frontend
 
-kubectl exec -it postgres-768857d6bf-p4gl2 -- psql -U postgres
+kubectl exec -it postgres-768857d6bf-5b7gh -- psql -U postgres
 CREATE DATABASE loan;
+DROP DATABASE IF EXISTS nombre_base_datos;
 \q
 
 \l
@@ -90,9 +91,17 @@ kubectl port-forward service/eureka-server 8761:8761
 kubectl port-forward service/api-gateway 8080:8080 
 kubectl logs api-gateway-769bfdc8d5-428bg 
 
-kubectl exec -i postgres_container psql -U postgres -d presta-banco-db < data.sql
-kubectl exec -it postgres-598b5cc7fd-fvxt4 -- psql -U postgres -d loan < data.sql
+kubectl exec -i postgres-768857d6bf-5b7gh -U postgres -d loan < data.sql
+kubectl exec -it postgres-768857d6bf-5b7gh -- psql -U postgres -d loan < data.sql
 
 http://localhost:8080/loan-microservice/loan
 
 docker login -u ghox19 -p $dhpsw
+
+
+kubectl cp data.sql postgres-768857d6bf-5b7gh:/tmp/data.sql
+
+kubectl exec -it postgres-768857d6bf-5b7gh -- psql -U postgres -d loan -f /tmp/data.sql
+
+kubectl run test-pod --image=debian:stable -it --rm -- bash
+curl http://api-gateway:8080

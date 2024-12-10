@@ -3,7 +3,7 @@ export const environment = {
         API_URL: 'http://localhost:8080'
     },
     production: {
-        API_URL: 'http://localhost:8080'  // Usa una ruta relativa
+        API_URL: 'http://localhost:8080'  
     }
   };
   
